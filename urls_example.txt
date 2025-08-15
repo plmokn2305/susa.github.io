@@ -1,0 +1,10 @@
+# 範例 URL（同一份 Google 試算表）
+
+# 匯出（統計8欄）CSV：
+https://docs.google.com/spreadsheets/d/e/<PUB_ID>/pub?gid=<GID_EXPORT>&single=true&output=csv
+
+# 提案清單 CSV：
+https://docs.google.com/spreadsheets/d/e/<PUB_ID>/pub?gid=<GID_PROPOSALS>&single=true&output=csv
+
+# 網站：
+https://<你>.github.io/<repo>/?sheet=https://docs.google.com/spreadsheets/d/e/<PUB_ID>/pub?gid=<GID_EXPORT>&single=true&output=csv&proposals=https://docs.google.com/spreadsheets/d/e/<PUB_ID>/pub?gid=<GID_PROPOSALS>&single=true&output=csv

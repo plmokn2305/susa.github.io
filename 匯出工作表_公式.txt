@@ -1,0 +1,43 @@
+# 匯出工作表（Google 試算表）自動計算公式
+# 總表內建分頁：出席率、質詢率、連署次數、提案次數、議員名冊、提案清單、匯出
+# 目標：由「匯出」分頁輸出 8 欄：姓名 | 系級/單位 | 職稱 | 照片URL | 出席率 | 質詢率 | 連署數 | 提案數
+# 並從「提案清單」分頁輸出提案 CSV（另行發佈）。
+
+# 在「匯出」!A1:H1 放上標題：姓名, 系級/單位, 職稱, 照片URL, 出席率, 質詢率, 連署數, 提案數
+
+# A2（姓名）：
+=ARRAYFORMULA(FILTER(議員名冊!A2:A, 議員名冊!A2:A<>""))
+
+# B2（系級/單位）：
+=ARRAYFORMULA(IF(A2:A="","", VLOOKUP(A2:A, 議員名冊!A:D, 3, FALSE)))
+
+# C2（職稱）：
+=ARRAYFORMULA(IF(A2:A="","", VLOOKUP(A2:A, 議員名冊!A:D, 4, FALSE)))
+
+# D2（照片URL）：
+=ARRAYFORMULA(IF(A2:A="","", VLOOKUP(A2:A, 議員名冊!A:D, 2, FALSE)))
+
+# E2（出席率）：（總出席數 ÷ 總開會次數）
+=ARRAYFORMULA(IF(A2:A="","",
+ IFERROR(
+   INDEX(出席率!1:1, MATCH(A2:A, 出席率!1:1, 0)) / INDEX(出席率!1:1, MATCH("總開會次數", 出席率!1:1, 0)),
+  )
+))
+
+# F2（質詢率）：（總質詢次數 ÷ 總開會次數）
+=ARRAYFORMULA(IF(A2:A="","",
+ IFERROR(
+   INDEX(質詢率!1:1, MATCH(A2:A, 質詢率!1:1, 0)) / INDEX(質詢率!1:1, MATCH("總開會次數", 質詢率!1:1, 0)),
+  )
+))
+
+# G2（連署數）：
+=ARRAYFORMULA(IF(A2:A="","", IFERROR(INDEX(連署次數!1:1, MATCH(A2:A, 連署次數!1:1, 0)), 0)))
+
+# H2（提案數）：
+=ARRAYFORMULA(IF(A2:A="","", IFERROR(INDEX(提案次數!1:1, MATCH(A2:A, 提案次數!1:1, 0)), 0)))
+
+# ※ 設 E、F 欄位為「百分比」格式。
+# ※ 發佈兩個 CSV：
+#   1) 匯出（給 ?sheet= 使用）
+#   2) 提案清單（給 ?proposals= 使用）
